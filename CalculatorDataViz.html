@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="Styles.css">
+</head>
+
+<body bgcolor="FFFFFF">
+<h1<B> Advanced Data Visualiation Homework 4 - HTML & JS Calculator </h1>
+	<p> <This application utilizes HTML and Javascript to create a calculator that can do simple mathimatical computing </p
+
+<body>
+
+	<div id="calculator-parent">
+		
+		<div class = "row">
+			<div class="col" id = "calc-display"></div>
+		</div>
+	
+		<div class = "row">
+			<div class="calc-btn col" id = "calc-clear">C</div>
+			<div class="calc-btn col" id = "calc-backspace">&#8676;</div>
+			<div class="calc-op_btn col" id = "calc-division">&#247;</div>
+		</div>
+		
+		<div class = "row">
+			<div class="calc-num_btn col" id = "calc-7">7</div>
+			<div class="calc-num_btn col" id = "calc-8">8</div>
+			<div class="calc-num_btn col" id = "calc-9">9</div>
+			<div class="calc-op_btn col" id = "calc-multiplication">x</div>
+		</div>
+		
+		<div class = "row">
+			<div class="calc-num_btn col" id = "calc-4">4</div>
+			<div class="calc-num_btn col" id = "calc-5">5</div>
+			<div class="calc-num_btn col" id = "calc-6">6</div>
+			<div class="calc-op_btn col" id = "calc-subtraction">-</div>
+		</div>
+		
+		<div class = "row">
+			<div class="calc-num_btn col" id = "calc-1">1</div>
+			<div class="calc-num_btn col" id = "calc-2">2</div>
+			<div class="calc-num_btn col" id = "calc-3">3</div>
+			<div class="calc-op_btn col" id = "calc-addition">+</div>
+		</div>
+		
+		<div class = "row">
+			<div class="calc-num_btn col" id = "calc-0">0</div>
+			<div class="calc-btn col" id = "calc-decimal">.</div>
+			<div class="calc-op_btn col" id = "calc-equals">=</div>
+		</div>
+		
+	</div>
+
+	<script>
+		var btn_1 = document.getElementById('calc-1');
+		var btn_2 = document.getElementById('calc-2');
+		var btn_3 = document.getElementById('calc-3');
+		var btn_4 = document.getElementById('calc-4');
+		var btn_5 = document.getElementById('calc-5');
+		var btn_6 = document.getElementById('calc-6');
+		var btn_7 = document.getElementById('calc-7');
+		var btn_8 = document.getElementById('calc-8');
+		var btn_9 = document.getElementById('calc-9');
+		var btn_0 = document.getElementById('calc-0');
+		
+		var btn_decimal = document.getElementById('calc-decimal');
+		var btn_clear = document.getElementById('calc-clear');
+		
+		var btn_backspace = document.getElementById('calc-backspace');
+		var displayValueElement = document.getElementById('calc-display');
+		
+		var calc_num_btn = document.getElementsByClassName('calc-num_btn');
+		var calc_op_btn = document.getElementsByClassName('calc-op_btn');
+		
+		var displayValue = '0';
+		var pendingValue; 
+		var evaluateString = []; 
+		
+		var updateDisplayVal = (clickObj) => {
+	
+			var output_value = clickObj.target.innerText;
+			
+			if (displayValue =='0')
+				displayValue = '';
+				
+			displayValue += output_value;
+			displayValueElement.innerText = displayValue;
+			
+		}
+		
+		var performOperation = (clickObj) => {
+		
+			var operator = clickObj.target.innerText;
+			
+			switch (operator) {
+			
+				case '+':
+					pendingValue = displayValue;
+					displayValue = '0';
+					displayValueElement.innerText = displayValue;
+					evaluateString.push(pendingValue);
+					evaluateString.push('+');
+					break;
+					
+				case '-':
+					pendingValue = displayValue;
+					displayValue = '0';
+					displayValueElement.innerText = displayValue;
+					evaluateString.push(pendingValue);
+					evaluateString.push('-');
+					break;
+					
+				case 'x':
+					pendingValue = displayValue;
+					displayValue = '0';
+					displayValueElement.innerText = displayValue;
+					evaluateString.push(pendingValue);
+					evaluateString.push('*');
+					break;
+					
+				case '÷':
+					pendingValue = displayValue;
+					displayValue = '0';
+					displayValueElement.innerText = displayValue;
+					evaluateString.push(pendingValue);
+					evaluateString.push('/');
+					break;
+				
+				case '=':
+					evaluateString.push(displayValue);
+					var result = eval(evaluateString.join(''));
+					displayValue = result + '';
+					displayValueElement.innerText = displayValue;
+					evaluateString = [];
+					break;
+						
+				default:
+					break;
+			}
+		
+		}
+		
+		for(let i=0; i < calc_num_btn.length; i++) 
+		{
+			calc_num_btn[i].addEventListener('click', updateDisplayVal, false);
+		}
+		
+		for(i=0; i < calc_op_btn.length; i++) 
+		{
+			calc_op_btn[i].addEventListener('click', performOperation, false);
+		}
+		
+		btn_clear.onclick = () =>
+		
+		{
+			displayValue = '0';
+			pendingValue = undefined; 
+			evaluateString = []; 
+			displayValueElement.innerHTML = displayValue;
+		}
+		
+		btn_backspace.onclick = () =>
+		
+		{	
+			let lengthOfDisplayValue = displayValue.length;
+			displayValue = displayValue.slice(0,lengthOfDisplayValue - 1);
+			displayValueElement.innerText = displayValue;
+			
+			if (displayValue == '')
+				displayValue = '0';
+			
+		}
+		
+		btn_decimal.onclick = () =>
+		
+		{
+			if (!displayValue.includes('.'))
+				displayValue += '.';
+			displayValueElement.innerText = displayValue;
+		}
+		
+		
+		
+ </script>
+</body>
+</html>
